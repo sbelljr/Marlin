@@ -655,7 +655,7 @@
   #define DELTA_SEGMENTS_PER_SECOND 200 //TODO consider lower if stutters!
 
   // After homing move down to a height where XY movement is unconstrained
-  #define DELTA_HOME_TO_SAFE_ZONE
+  // #define DELTA_HOME_TO_SAFE_ZONE // Crashes on tallest prints!
 
   // Delta calibration menu
   // uncomment to add three points calibration menu option.
