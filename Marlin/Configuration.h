@@ -418,7 +418,7 @@
  *   998 : Dummy Table that ALWAYS reads 25°C or the temperature defined below.
  *   999 : Dummy Table that ALWAYS reads 100°C or the temperature defined below.
  */
-#define TEMP_SENSOR_0 5
+#define TEMP_SENSOR_0 5 //11 is for e3d v6 clone (supposedly...), stock is 5... trying 5 for reasonable correlation
 #define TEMP_SENSOR_1 0
 #define TEMP_SENSOR_2 0
 #define TEMP_SENSOR_3 0
@@ -463,7 +463,7 @@
 // Above this temperature the heater will be switched off.
 // This can protect components from overheating, but NOT from shorts and failures.
 // (Use MINTEMP for thermistor short/failure protection.)
-#define HEATER_0_MAXTEMP 275
+#define HEATER_0_MAXTEMP 300
 #define HEATER_1_MAXTEMP 275
 #define HEATER_2_MAXTEMP 275
 #define HEATER_3_MAXTEMP 275
@@ -478,7 +478,7 @@
 
 // Comment the following line to disable PID and enable bang-bang.
 #define PIDTEMP
-#define BANG_MAX 200     // Limits current to nozzle while in bang-bang mode; 255=full current
+#define BANG_MAX 255     // Limits current to nozzle while in bang-bang mode; 255=full current
 #define PID_MAX BANG_MAX // Limits current to nozzle while PID is active (see PID_FUNCTIONAL_RANGE below); 255=full current
 #define PID_K1 0.95      // Smoothing factor within any PID loop
 #if ENABLED(PIDTEMP)
@@ -517,9 +517,20 @@
   // #define DEFAULT_Kp 7.77
   // #define DEFAULT_Ki 0.31
   // #define DEFAULT_Kd 48.71
-  #define DEFAULT_Kp 11.50
-  #define DEFAULT_Ki 0.54
-  #define DEFAULT_Kd 60.78
+
+  // Stock hotend
+  // #define DEFAULT_Kp 11.50
+  // #define DEFAULT_Ki 0.54
+  // #define DEFAULT_Kd 60.78
+
+  // E3D v6 clone
+  // #define DEFAULT_Kp 19.42
+  // #define DEFAULT_Ki 1.89
+  // #define DEFAULT_Kd 49.76
+  // E3D v6 clone installed
+  #define DEFAULT_Kp 25.52
+  #define DEFAULT_Ki 2.72
+  #define DEFAULT_Kd 59.76
 
 #endif // PIDTEMP
 
@@ -652,7 +663,7 @@
   // Make delta curves from many straight lines (linear interpolation).
   // This is a trade-off between visible corners (not enough segments)
   // and processor overload (too many expensive sqrt calls).
-  #define DELTA_SEGMENTS_PER_SECOND 200 //TODO consider lower if stutters!
+  #define DELTA_SEGMENTS_PER_SECOND 150 //TODO consider lower if stutters!
 
   // After homing move down to a height where XY movement is unconstrained
   // #define DELTA_HOME_TO_SAFE_ZONE // Crashes on tallest prints!
@@ -683,7 +694,7 @@
 
   #if ENABLED(ANYCUBIC_KOSSEL_PLUS)
     // Print surface diameter/2 minus unreachable space (avoid collisions with vertical towers).
-    #define DELTA_PRINTABLE_RADIUS 116.0  // (mm)
+    #define DELTA_PRINTABLE_RADIUS 115.0  // (mm)
     // Center-to-center distance of the holes in the diagonal push rods.
     #define DELTA_DIAGONAL_ROD 267        // (mm)
       // Horizontal offset from middle of printer to smooth rod center.
@@ -1092,7 +1103,8 @@
  * Specify a Probe position as { X, Y, Z }
  */
 #if ANYCUBIC_PROBE_VERSION == 2
-  #define NOZZLE_TO_PROBE_OFFSET { 0, 0, -16.8 }
+  // #define NOZZLE_TO_PROBE_OFFSET { 0, 0, -16.8 }
+  #define NOZZLE_TO_PROBE_OFFSET { 0, 0, -19.0 } // Custom effector, probe is lower!
 #elif ANYCUBIC_PROBE_VERSION == 1
   #define NOZZLE_TO_PROBE_OFFSET { 0, 0, -19.0 }
 #else
@@ -1142,7 +1154,7 @@
 #define Z_CLEARANCE_MULTI_PROBE    5 // Z Clearance between multiple probes
 //#define Z_AFTER_PROBING            5 // Z position after probing is done ****enabled causes head to crash at end of bed leveling! ****
 
-#define Z_PROBE_LOW_POINT          -2 // Farthest distance below the trigger-point to go before stopping
+#define Z_PROBE_LOW_POINT          -5 // Farthest distance below the trigger-point to go before stopping
 
 // For M851 give a range for adjusting the Z probe offset
 #define Z_PROBE_OFFSET_RANGE_MIN -40
